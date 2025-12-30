@@ -1,0 +1,73 @@
+What is the primary function of an SCM (Source Code Management) tool in a DevOps pipeline?,"It is used to store and manage different versions of source code files, application configuration files, and test cases, enabling parallel development."
+"In the context of modern mainframe development, what is the recommended SCM technology?",A Git-based SCM is the recommended technology.
+What tool is recommended by IBM for handling the build component in a z/OS CI/CD pipeline?,IBM Dependency Based Build (DBB) is the recommended build tool.
+"What is the key DevOps practice supported by an artifact repository, allowing the same binaries to be deployed to multiple environments?","The principle of ""Build once, deploy many""."
+"Which component in a CI/CD pipeline oversees and integrates all automated processes, ensuring they run in the correct order?",The Pipeline Orchestrator (or CI Orchestrator).
+The _____ is a framework template that facilitates leveraging DBB APIs to build z/OS applications by defining build properties separately from the build logic.,zAppBuild framework
+What are the two main types of builds discussed in the context of z/OS development with DBB?,"A user build, done by a developer on a single program, and a pipeline build, which builds changes pushed to the Git server."
+"In z/OS mainframe development, what is a copybook?","A file containing a shared data structure, included in multiple programs at compile time to define interfaces for data sharing."
+What is the difference between a static call and a dynamic call between programs on z/OS?,"Statically called programs are linked together at build time, while dynamically called programs are built separately and linked at runtime."
+"A _____ change to an interface is one where the memory layout of the data structure is impacted, requiring all consumers to rebuild.",breaking
+"In the context of interface changes, what does the term 'adoption' refer to?","It is the process of an application reacting to changes in a consumed interface, such as recompiling to use a new version of a copybook."
+What is the purpose of a 'User Build' in the IBM Z DevOps workflow?,It allows a developer to compile a single program for personal testing without committing or pushing the change to the repository.
+A _____ build only compiles changed files and any other files that are impacted by those changes.,dependency-based impact
+What is the role of the 'Architect' in a mainframe DevOps transformation?,"The architect defines the new software delivery process, translating existing mainframe workflows into the to-be CI/CD pipeline."
+Which role in a mainframe DevOps transformation is responsible for developing and maintaining the build scripts for the new pipeline using tools like DBB?,The Build Specialist.
+"The _____ is a developer-type role that assembles and administers the pipeline via the CI/CD orchestrator, focusing on integrating tools together.",Pipeline Specialist
+What is the primary function of the DBB Migration Tool?,"It facilitates copying source code PDS members into a local Git repository on z/OS UNIX, performing necessary code page conversions."
+What character encoding conversion is typically required when migrating mainframe source code to Git?,Conversion from an EBCDIC code page (like IBM-1047) to UTF-8.
+What is the purpose of the `.gitattributes` file when migrating z/OS source code?,"It tells Git how to handle file encodings, ensuring correct code page conversion during commits and checkouts."
+What does a 'partial package' contain in a mainframe deployment strategy?,It contains only the updated executables and configurations resulting from an incremental or impact build.
+What is the recommended Git branching model for mainframe development described in the IBM Z DevOps Guide?,A trunk-based development approach using short-lived feature branches.
+"In the recommended Git branching model, what is the role of the 'main' branch?","It is the single long-living branch that contains the latest, agreed-upon state of the code and serves as the reference for the entire history."
+How are production problems in a currently-released version of an application typically handled in the recommended Git workflow?,"By creating a release maintenance branch from the Git tag of the production version, implementing the fix, and then merging it back into the main branch."
+What is an 'epic branch' used for in the context of the Git branching model for mainframe development?,It is an optional branch used to group multiple related features for a larger initiative that will be built and tested together before merging into main.
+"During a Release Pipeline, what is the significance of creating a Git tag?","It marks the specific commit from which the release package was produced, identifying the version currently in production."
+What is IBM Wazi Deploy?,"A scriptable method to deploy mainframe programs and artifacts to multiple target systems, available as a Python package or with Ansible."
+"In Jenkins, the _____ plugin must be installed to execute DBB build scripts.",Groovy
+"When configuring a Jenkins agent on USS for DBB, what is the 'Remote root directory' used for?",It is the USS directory where the Jenkins remoting.jar file and project workspaces will be created.
+What is the primary advantage of using a z/OS-native GitLab Runner over a remote runner?,"It simplifies the architecture by executing commands directly on z/OS without needing SSH or RSEAPI, and it connects outbound to the GitLab server."
+What is the function of the `MVSExec` command class in the DBB Groovy API?,"It is used to execute z/OS programs, similar to a JCL EXEC statement."
+"In a DBB build script, what is used in place of a JCL STEPLIB to specify the search path for a program being invoked?",A TASKLIB DD statement is used.
+What is IBM Z Open Editor?,"An extension for IDEs like VS Code that provides language support for mainframe languages such as COBOL, PL/I, HLASM, REXX, and JCL."
+What is a major benefit of using an IDE like VS Code with Z Open Editor for new mainframe developers?,"It provides a modern, familiar development environment, avoiding the shock of the traditional 24x80 green screen interface."
+What is the difference between source dependencies and runtime dependencies for a mainframe application?,"Source dependencies (like copybooks) are required to build the program, while runtime dependencies (like databases) are required for the application to run."
+"According to the source material, should steps like database binds be part of the build process or the deployment process?","They should be included in the deployment process, not the build process."
+The zAppBuild framework is split into two parts: the core build framework (dbb-zappbuild) and the _____ folder that resides within each application repository.,application-conf
+"In the zAppBuild framework, which property file defines enterprise-wide settings like the PDS name of the compiler?",dataset.properties
+What option is passed to zAppBuild to trigger an impact build that includes all changed and impacted programs?,The `--impactBuild` option.
+What does the zAppBuild `--baselineRef` option allow a pipeline to do?,"It specifies a baseline commit hash for calculating the list of changed files for an incremental build, avoiding a full rebuild."
+When would a developer typically use the User Build capability in their IDE?,During the early development phase to compile and link-edit source code for rudimentary tests without committing the changes to Git.
+"To prevent unauthorized updates to production-level branches in Git, administrators can define access rules known as _____.",branch protection
+What key audit requirement ensures that no single individual has control over all aspects of the development process?,Separation of duties.
+"When migrating source files, what issue can arise from characters that are non-printable or non-roundtripable between EBCDIC and UTF-8?","Code page conversion can fail or cause corruption, requiring a decision to refactor the code or transfer the files as binary."
+"In a mainframe application, what two main components can an application be defined by?",Shared interfaces (used to communicate with other programs) and the actual implementation of the programs.
+"When a field is added to a data structure without impacting the overall memory layout, it is considered a _____ compatible change.",backward
+The file `BuildReport.json` is an output of the zAppBuild process. What is its purpose?,"It serves as an artifact manifest, containing metadata for deployment processes coordinated by the deployment manager."
+What is the purpose of the zAppBuild 'Initialize Build' step?,"It loads properties, initializes reports, creates data sets if needed, and connects to the DBB metadata store."
+What is the primary function of the `CopyToPDS` command class in the DBB API?,"It copies a source file from a zFS directory to a PDS member, which is often required by mainframe compilers."
+What organization provides the GitLab software?,GitLab Inc.
+What is the primary challenge that GitLab Ultimate for IBM Z aims to solve for enterprise organizations?,"It addresses the lack of modern DevSecOps tools for mainframe teams, who are often stuck with outdated tools and operational silos."
+What is the IBM Z and Cloud Modernization Stack?,A solution that extends the Red Hat OpenShift platform to simplify building and deploying cloud-native applications in a hybrid environment including mainframes.
+"According to Kara Todd of IBM, why is it often more efficient to bring code to data rather than moving data to a centralized platform?",Because migrating massive amounts of data from mainframes can be cost-prohibitive.
+What is the primary benefit of a User-defined build scope in a CI/CD pipeline?,"It provides full flexibility to the user, who supplies the explicit list of files to be considered in the build."
+"In the `IBM Z DevOps Guide`, what is the purpose of a package's manifest file?","It contains metadata about the package's contents, which the deployment manager uses to know how to treat each element during rollout."
+"A _____ package contains all executables and configuration files for an application, while a partial package contains only the updates.",full
+What is the purpose of the `LinkEditScanner` API within the IBM DBB toolkit?,It provides information about the object decks bound to a load module to update dependency data at the output level.
+What is a 'user build' in the context of IBM Dependency Based Build?,"A build initiated by a user on a single program, typically from their IDE for quick feedback."
+What is the purpose of the SYSLIB concatenation in traditional mainframe library managers?,"It concatenates different staging libraries to form a build path, similar to a classpath in Java development."
+What scripting language are IBM DBB build scripts and the zAppBuild framework based on?,They are based on open-source Groovy.
+"In a Jenkins pipeline for DBB, what information is passed via the 'Script parameters' field?","Parameters required by the main Groovy build script, such as source directory, work directory, and DBB repository URL."
+What is the primary function of IBM Wazi Deploy's `building blocks`?,They are reusable components (like `member_copy` or `job_submit`) that define specific deployment actions in a deployment method file.
+What feature introduced in Wazi Deploy 3.0.3 allows for conditional execution of deployment steps?,"Conditional deployment instructions such as `when`, `failed_when`, and `jumps_when`."
+What is the `DBB zBuilder` introduced in DBB version 3.0.0?,"An integrated, configuration-based build framework where build configuration is defined in YAML files, serving as an alternative to zAppBuild."
+What is the 'housekeeping' strategy recommended for feature branches after they are merged?,"The strategy includes cleaning up the DBB collections, the build workspace on z/OS UNIX, the build datasets, and deleting the feature branch."
+What is the purpose of the 'Analyze' stage in a CI/CD pipeline for mainframe applications?,"It can include steps to perform automated code inspections, update static code analysis repositories, or run Sonarqube scans for maintainability."
+How does the IBM Z Open Editor extension for VS Code help developers?,"It provides features like syntax highlighting, code completion, outline view navigation, and variable lookups for mainframe languages."
+"In a mainframe context, what is z/OS UNIX System Services (USS or zFS)?","A component of z/OS that provides a UNIX-like environment, which is essential for running tools like Git, DBB, and pipeline agents."
+What is the benefit of a pipeline orchestrator agent running natively on z/OS?,"It simplifies the connection, as the agent can directly execute pipeline steps in z/OS UNIX without needing remote connections like SSH."
+"When using the DBB Migration Tool, what does the `pdsEncoding` keyword in a mapping rule allow you to do?","It allows you to override the default EBCDIC code page (e.g., IBM-1047) with a specific one (e.g., IBM-037) for a PDS or member being migrated."
+What happens if the DBB Migration Tool detects a non-roundtripable character in a source member?,"It emits a diagnostic message and copies the member to z/OS UNIX as binary, meaning no code page conversion is performed."
+Which Wazi Deploy building block is used to copy artifacts to a Generation Data Group (GDG) file?,The `gdg_copy` building block.
+What is the function of the `jumps_when` instruction in a Wazi Deploy deployment method?,"It allows the deployment to jump to a specified activity, action, or step if a certain condition is met."
+What is the purpose of the 'evidence file' generated by Wazi Deploy?,"It is an audit and traceability report that records the details of a deployment, including artifacts, steps taken, and their status."
