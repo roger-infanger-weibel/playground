@@ -28,3 +28,35 @@ The following table summarizes the documented releases and interim fixes for the
 The sources provided are current only through **August 19, 2025**. Therefore, they **do not contain a roadmap or a list of releases for 2026**.
 
 **Would you like to know more about the specific technical requirements for the latest 3.0.6 release, such as the supported Python or ZOAU versions?**
+
+
+
+
+The following table provides a detailed overview of the **IBM Wazi Deploy** release history and key features from late 2023 through August 2025, based on the provided sources. 
+
+Please note that the sources currently only provide information up to **August 2025**; there is no data available for scheduled releases in **2026**.
+
+### IBM Wazi Deploy Release Summary (2023–2025)
+
+| Version | Release Date | Key Features and Improvements |
+| :--- | :--- | :--- |
+| **3.0.6.1** | *Post-3.0.6* | **Interim fix** recommended for immediate application for all 3.0.6 users. |
+| **3.0.6** | 2025 (Estimated) | Root-level **`rescue`** instructions; **`beginAt`** argument to start deployments at specific steps; custom **Jinja2 filters** for Python; new **`sequential_restore`** and **`uss_restore`** building blocks. |
+| **3.0.5.2** | August 2025 | Performance fixes for **`USE_NATIVE_COPY`**; fix for **`DB2_BIND_PACKAGE`** exceptions when routing to secondary machines; **`force_lock`** support for Python. |
+| **3.0.5.1** | July 2025 | Addressed slower performance in deployment steps when using native copy options. |
+| **3.0.5** | 2025 | **YAML schemas** for configuration validation; new **GDG management** building blocks (`gdg_archive`, `gdg_copy`, etc.); **`ims_ddl`** building block for SQL submissions. |
+| **3.0.4** | February 2025 | **`http_request`** building block for REST APIs; **pre-deployment checks** to block failing triggers; **initial `rescue`** instruction; fixed SSL errors for CICS. |
+| **3.0.3** | October 2024 | **Simplified offline installation** (all requisites included); **local packaging** via `wazideploy-package`; **conditional deployment** (`loop`, `when`, `failed_when`, `jumps_when`). |
+| **3.0.2** | March/May 2024 | Support for **Linux x86 and Linux on Z** for Ansible; new **`tso_command`** and **`ims_olcutl`** building blocks; artifact renaming support. |
+| **3.0.1** | October 2023 | Introduction of the **Evidence Requester** for auditing; support for **IMS applications** and **Nexus** artifact repositories. |
+
+---
+
+### Key Technical Takeaways for your MVP
+
+*   **Architecture:** Wazi Deploy remains a **serverless** tool, constituted solely of a **Command-Line Interface (CLI)**, which makes it highly compatible with CI/CD pipelines like Jenkins or GitLab.
+*   **Deployment Logic:** Recent 2025 updates (3.0.4–3.0.6) heavily emphasize **error handling** through the `rescue` instruction and **flexibility** with the `beginAt` argument, allowing you to resume failed deployments from a specific point.
+*   **Performance:** Version 3.0.5 and 3.0.6 introduced significant performance enhancements for the **`use_native_copy`** variable, which uses the native UNIX `cp` command instead of ZOAU to speed up file transfers.
+*   **Validation:** For a robust student or customer playground, the **YAML schemas** introduced in version 3.0.5 allow for automated validation of deployment methods and manifest files before execution.
+
+Would you like more details on the specific **Python environment variables** or **SMP/E installation steps** required for the latest 3.0.5/3.0.6 versions?
