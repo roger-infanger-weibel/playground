@@ -1,3 +1,40 @@
+Migrating your security paradigm from a mainframe-centric model like **RACF** to a modern DevSecOps model like **GitLab** introduces a significant transition risk. While legacy SCMs like ChangeMan ZMF rely heavily on host-based serialization and SAF (System Authorization Facility) rules, a modern pipeline shifts the focus to **Role-Based Access Control (RBAC)** and automated identity management,.
+
+### **The Risk of Security Migration**
+
+The primary danger is the **translation gap** between host-resident permissions and repository-level access. In the modern solution, you are not entirely replacing RACF but rather creating an integration layer where GitLab manages "who" can initiate a change, while a **technical user** on z/OS executes the actual build and deployment.
+
+| Security Risk Area | Detailed Description | Impact / Probability | Mitigation Strategy |
+| :--- | :--- | :--- | :--- |
+| **Paradigm Mismatch** | Moving from host-centric RACF rules to GitLab RBAC/LDAP-centric policies. | **High Prob. / Moderate Impact** | Extend GitLab RBAC to integrate with native z/OS security facilities like RACF. |
+| **Technical User Over-Privilege** | The z/OS technical user (e.g., `GITLABR`) required for the Native Runner must have broad "write" authority across all 5 systems to execute DBB and Wazi Deploy. | **Moderate Prob. / High Impact** | Use **"protected accounts"** in RACF for CI/CD processes to prevent human interactive login. |
+| **Broken Separation of Duties (SoD)** | Automated pipelines risk bypassing manual SoD if pull request approvals and runner permissions are misconfigured,. | **Low Prob. / Very High Impact** | Enforce mandatory **Pull Request reviews** and branch protection rules within GitLab to maintain SoD,. |
+| **Inbound Port Exposure** | Legacy workarounds (SSH/manual transfers) create vulnerabilities that fail company audits. | **Moderate Prob. / Moderate Impact** | Use the **z/OS-native GitLab Runner**, which uses an **outbound-only connection**, reducing the risk of exposing inbound ports. |
+
+### **Mapping to Company Compliance Standards**
+
+To ensure your new setup is compliant with internal audit certifications, the solution leverages automated, immutable evidence rather than manual checklists.
+
+*   **Traceability and Integrity:** Every source change in GitLab is secured with a unique commit hash and a descriptive comment, providing a line-by-line audit trail,.
+*   **Automated Evidence:** **IBM Wazi Deploy** generates **evidence files** at the end of every deployment step, proving exactly what was installed, by whom, and where,.
+*   **Build Manifests:** **IBM DBB** produces a `BuildReport.json` that captures the exact source-to-binary relationship, ensuring the integrity of the build process for auditors,.
+*   **Records Retention:** GitLab and the artifact repository (Artifactory/Nexus) maintain a complete history of releases, allowing you to meet retention requirements (often up to 7 years) and perform rollbacks if necessary,.
+
+### **Consolidated Risk Overview for the 5-System Migration**
+
+Incorporating the infrastructure, ownership, and security risks discussed, here is the final consolidated table.
+
+| Risk Category | Detailed Description | Probability | Impact |
+| :--- | :--- | :--- | :--- |
+| **Security Migration** | Shift from host-centric RACF to GitLab RBAC/LDAP. | **High** | **High** |
+| **Missing Owner Approval** | Political/governance refusal from application owners on specific LPARs [Milestone 2]. | **High** | **Critical** |
+| **Environment Isolation** | The "fully blocked" 5th system prevents standard remote orchestration. | **Moderate** | **High** |
+| **Infrastructure Fragmentation** | Divergent configurations across 5 separate ChangeMan instances [Milestone 3]. | **High** | **Moderate** |
+| **Interface Adoption** | Breaking changes in shared copybooks across release trains,. | **Moderate** | **Very High** |
+| **Knowledge Gap** | Absence of human resources with both mainframe and "open" world skills. | **High** | **Moderate** |
+
+**Recommendation:** To mitigate the security risk, focus on the **"Discovery" phase (Milestone 1)** to map existing RACF groups to GitLab roles. By using a **z/OS-native Runner**, you satisfy the most stringent compliance requirements by keeping data movement and execution entirely within the mainframe's secure perimeter while using GitLab for orchestration,.
+
 The lack of **owner confirmation** for a migration is a significant **governance and political risk** that can stall a DevOps transformation, regardless of technical readiness. This risk is particularly acute when dealing with five separate ChangeMan systems, as each likely has different stakeholders with unique concerns regarding security, stability, and control.
 
 ### Consolidated Risk Analysis: Multi-System Migration with Ownership Barriers
