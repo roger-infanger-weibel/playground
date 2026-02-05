@@ -195,3 +195,10 @@ The shift to a modern pipeline often simplifies company compliance requirements 
 *   **Versioned Truth:** Git serves as the single source of truth for code, tests, and configurations, providing a complete history of who made what change and when,.
 *   **Automated Quality Gates:** The pipeline can be configured with mandatory **code scanning and quality gates** (e.g., IDz Code Review or Wazi Analyze) to ensure that only compliant code reaches production,.
 *   **Audit Readiness:** Secure and immutable compliance evidence, such as logs from CI/CD orchestrators, ensures that the organization can meet records retention requirements, which can be up to 7 years in some jurisdictions,.
+
+
+[Uploading Modern_Mainframe_Stability.pdf…]()
+
+
+
+
